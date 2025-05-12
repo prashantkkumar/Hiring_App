@@ -14,10 +14,10 @@ public class JobOfferNotificationController {
     @Autowired
     private JobOfferService jobOfferService;
 
-    @PostMapping("/notify")
-    public ResponseEntity<String> notifyCandidate(@RequestBody @Valid JobOfferNotificationDTO dto) {
-        jobOfferService.sendJobOfferNotification(dto);
-        return ResponseEntity.ok("Job offer notification sent via RabbitMQ.");
+    @PostMapping
+    public ResponseEntity<String> sendNotification(@RequestBody @Valid JobOfferNotificationDTO dto) {
+        jobOfferService.notifyCandidate(dto);
+        return ResponseEntity.ok("Notification sent to: " + dto.getCandidateEmail());
     }
 }
 
