@@ -21,10 +21,6 @@ public class JwtUtil {
     private static final String SECRET = "my-super-secret-key-that-is-long-enough-1234567890!@#this-is-extra-to-make-it-64-bytes!";
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
