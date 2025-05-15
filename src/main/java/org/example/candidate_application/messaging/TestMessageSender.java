@@ -7,9 +7,11 @@ import org.example.candidate_application.dto.JobOfferNotificationDTO;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("test")
 public class TestMessageSender implements CommandLineRunner {
 
     @Autowired

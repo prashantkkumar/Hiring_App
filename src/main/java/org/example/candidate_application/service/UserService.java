@@ -5,6 +5,7 @@ import org.example.candidate_application.entity.OtpVerification;
 import org.example.candidate_application.entity.User;
 import org.example.candidate_application.repository.OtpVerificationRepository;
 import org.example.candidate_application.repository.UserRepository;
+import org.example.candidate_application.util.JwtUtil;
 import org.example.candidate_application.util.OtpGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,8 @@ public class UserService {
     @Autowired private OtpVerificationRepository otpRepository;
     @Autowired private EmailService emailService;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private JwtUtil jwtUtil;
+
 
     public String registerUser(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -68,20 +71,25 @@ public class UserService {
         return "OTP verified. Account activated.";
     }
 
-    public String login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found."));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!user.isVerified()) {
-            return "Account not verified. Please verify OTP.";
+            throw new RuntimeException("Account not verified. Please verify OTP.");
         }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return "Incorrect password.";
+            throw new RuntimeException("Incorrect password.");
         }
 
-        return "Login successful.";
+        // Generate JWT token
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        return new AuthResponse(token);
     }
+
+
 
     public String sendResetOtp(ForgotPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
