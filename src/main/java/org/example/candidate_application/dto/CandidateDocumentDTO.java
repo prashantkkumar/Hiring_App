@@ -11,5 +11,6 @@ public class CandidateDocumentDTO {
     @NotBlank(message = "File URL is required")
     private String fileUrl;
 
+
     private boolean verified;
 }

@@ -1,4 +1,5 @@
 package org.example.candidate_application.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,13 @@ public class CandidateDocument {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "candidate_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "candidate_id", nullable = false)
+    @JsonIgnore
     private Candidate candidate;
 
     private String documentType;
     private String fileUrl;
-    private boolean verified;
+    private Boolean verified;
 }
