@@ -16,8 +16,12 @@ public class JobOfferNotificationController {
 
     @PostMapping
     public ResponseEntity<String> sendNotification(@RequestBody @Valid JobOfferNotificationDTO dto) {
-        jobOfferService.notifyCandidate(dto);
-        return ResponseEntity.ok("Notification sent to: " + dto.getCandidateEmail());
+        boolean notified = jobOfferService.notifyCandidate(dto);
+        if (notified) {
+            return ResponseEntity.ok("Notification sent to: " + dto.getCandidateEmail());
+        } else {
+            return ResponseEntity.badRequest()
+                    .body("Candidate not eligible for notification or error occurred");
+        }
     }
 }
-
