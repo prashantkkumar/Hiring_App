@@ -35,4 +35,23 @@ public class CandidateService {
         return candidateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Candidate with ID " + id + " not found"));
     }
+
+    public Candidate updateCandidate(Long id, CandidateDTO dto) {
+        Candidate candidate = candidateRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Candidate not found with id: " + id));
+
+        // Basic info update
+        candidate.setFirstName(dto.getFirstName());
+        candidate.setLastName(dto.getLastName());
+        candidate.setEmail(dto.getEmail());
+        candidate.setPhoneNumber(dto.getPhoneNumber());
+        candidate.setStatus(dto.getStatus());
+        candidate.setOnboardStatus(dto.getOnboardStatus());
+        candidate.setUpdatedAt(LocalDateTime.now());
+
+
+
+        return candidateRepository.save(candidate);
+    }
+
 }

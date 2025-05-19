@@ -31,4 +31,11 @@ public class CandidateController {
     public ResponseEntity<Candidate> getCandidateById(@PathVariable Long id) {
         return ResponseEntity.ok(candidateService.getCandidateById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Candidate> updateCandidate(@PathVariable Long id, @RequestBody @Valid CandidateDTO dto) {
+        Candidate updatedCandidate = candidateService.updateCandidate(id, dto);
+        return ResponseEntity.ok(updatedCandidate);
+    }
+
 }
