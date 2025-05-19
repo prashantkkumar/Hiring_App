@@ -20,11 +20,10 @@ public class FileEntity {
     private String fileName;
     private String filetype;
 
-
     @Lob
     private byte[] data;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne  // Removed cascade = CascadeType.ALL (important!)
     @JoinColumn(name = "candidate_id", nullable = false)
     @JsonIgnore
     private Candidate candidate;

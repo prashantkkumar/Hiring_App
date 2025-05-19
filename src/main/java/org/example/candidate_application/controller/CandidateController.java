@@ -38,4 +38,14 @@ public class CandidateController {
         return ResponseEntity.ok(updatedCandidate);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCandidate(@PathVariable Long id) {
+        boolean deleted = candidateService.deleteCandidateById(id);
+        if (deleted) {
+            return ResponseEntity.ok("Candidate deleted successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

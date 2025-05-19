@@ -48,10 +48,16 @@ public class CandidateService {
         candidate.setStatus(dto.getStatus());
         candidate.setOnboardStatus(dto.getOnboardStatus());
         candidate.setUpdatedAt(LocalDateTime.now());
-
-
-
         return candidateRepository.save(candidate);
+    }
+
+
+    public boolean deleteCandidateById(Long id) {
+        if (candidateRepository.existsById(id)) {
+            candidateRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
